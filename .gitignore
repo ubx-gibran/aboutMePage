@@ -1,0 +1,23 @@
+# Temporary files
+*.un~
+*.tmp
+*.swp
+&.swo
+*.log
+*.orig
+
+*.todo
+*.map
+
+src/data/
+
+# Windows batch files
+*.bat
+
+# Configuration files
+
+# Binaries and generated directories
+node_modules/
+.sass-cache/
+
+# Misc
