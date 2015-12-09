@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/ubx-gibran/aboutMePage",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "fs": "0.0.2",
+    "path": "^0.12.7"
   }
 }
