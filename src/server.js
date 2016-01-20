@@ -7,7 +7,10 @@
 
 // Load packages
 var express = require('express');
+var Promise = require('bluebird');
+var debug = require('debug');
 var path = require('path');
+var jade = require('jade');
 var fs = require('fs');
 
 
@@ -29,7 +32,7 @@ var Site = function() {
     self.setupVariables = function () {
         // Set the enviroment variables we need.
         self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
         if(typeof self.ipaddress === "undefined") {
             // Log errors on OpenShift but continue w/ 127.0.0.1.- this
@@ -91,6 +94,7 @@ var Site = function() {
     /*  ================================================================  */
     
     /**
+     *
      * Create the routing table entries + handlers for the application.
      */
     self.createRoutes = function() {
@@ -114,6 +118,7 @@ var Site = function() {
     self.initializeServer = function() {
         self.createRoutes();
         self.app = express();
+        self.app.set('view engine', 'jade');
 
         // Add handlers for the site (from the routes).
         for (var r in self.routes) {
@@ -139,16 +144,16 @@ var Site = function() {
     self.start = function() {
         // Start the app on the specific interface (and port).
         self.app.listen(self.port, self.ipadress, function() {
-            console.log('%s: Node sever started on %s:%d ...',
+            console.log('%s: [STATUS] website running! %s:%d ...',
                         Date(Date.now() ), self.ipadress, self.port);
         });
     };
     
-}; /* Site Application. */
+};
 
 
 /**
- * main(); Main code for Site
+ * --- Start-up ---
  */
 var site = new Site();
 site.initialize();
