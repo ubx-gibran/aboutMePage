@@ -1,0 +1,31 @@
+mixin link(url, title, aClass, iClass)
+    li(class={active : url === slug})
+        a(href=url class=aClass)
+            if(iClass)
+                span.fa(class=iClass)
+            | #{title}
+nav.navbar.navbar-defaul.navbar-fixed-top
+    div.container
+
+        div.navbar-header
+            button.navbar-toggle.collapsed(type="button"
+                data-toggle="collapse" data-target="#navbar"
+                aria-expaned="false" aria-controls="navbar")
+                span.sr-only Toogle navigation
+                span.fa.fa-bars
+            a.navbar-brand(href="/")
+
+        div#navbar.navbar-collapse.collapse.cl-effect-1
+            ul.nav.navbar-nav.navbar-right
+
+                +link("/about", "About")
+                li.dropdown(class=(paren === "/works") ? "active" : "")
+                    a.dropdown-toggle(href="#" data-toogle="dropdown"
+                            role="button") Works
+                        span.caret
+                    ul.dropdown-menu(role="menu")
+                        +link("/works/webs", "Complete Works web")
+                        +link("/works/iosApps", "iOS Apps")
+                +link("/contact", "Contact")
+                +link("/blog", "Blog")
+

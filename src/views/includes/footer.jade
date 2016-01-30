@@ -1,0 +1,54 @@
+div.container
+    div.row
+        div#sitenav.col-xs-6.col-md-3
+            h3 Resources
+            ul
+                +link("/about", "About")
+                +link("/contact", "Contact")
+                +link("/blog", "Blog")
+                +link("/works", "Works")
+        div#social.col-xs-6.col-md-3
+            h3 Social #[span.hidden-xs networks]
+            ul
+                li
+                    a(href="http://facebook.com/gibranv")
+                        span.fa.fa-facebook.circle.circlef
+                            |  Facebook
+                li
+                    a(href="http://twitter.com/sugeeet")
+                        span.fa.fa-twitter.circle.circlef
+                            |  Twitter
+                li
+                    a(href="http://linkedin.com/gibranv")
+                        span.fa.fa-linkedin.circle.circlef
+                            |  LinkedIn
+                li
+                    a(href="http://github.com/gibranv")
+                        span.fa.fa-github.circle.circlef
+                            |  Github
+        div#address.col-xs-6.col-md-3
+            h3 Contact
+            address
+                p
+                    span.black My house
+                    br
+                    | Colinas del Mar, Ste. Downey. 262
+                    br
+                    | Ensenada, BC, 22880, MX
+                    br
+                    | Phone: +52 (646) 109-8483
+        div.col-xs-6.col-md-3
+            div.row
+                div#actuallyJob.col-xs-12
+                    h3 Ubilogix
+                    a#ubilogix.down(href="http://ubilogix.com" target="_black")
+                        img(src="/img/ubilogix.png" alt="Ubilogix")
+
+           // div.row
+                div#copyright.col-xs-12
+                    br
+                    h3 Legal
+                    ul
+                        li &copy; 2016 Gibran Vargas, Inc.
+                        li
+                            a(href="/policies") Review our policies

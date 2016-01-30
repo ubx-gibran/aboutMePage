@@ -13,6 +13,9 @@ var path = require('path');
 var jade = require('jade');
 var fs = require('fs');
 
+// Load configuration
+var env = process.env.NODE_ENV || 'development';
+var cfg = require(path.join(__dirname, 'config.json'))[env];
 
 /**
  * Define the site.
@@ -30,16 +33,19 @@ var Site = function() {
      * Set up server IP address and port # usgin env variables/defaults.
      */
     self.setupVariables = function () {
-        // Set the enviroment variables we need.
-        self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+        // Node web server
+        cfg.ip   = process.env[cfg.e_ip]     || '127.0.0.1';
+        cfg.port = process.env[cfg.e_port]   || 3000;
+        
+        // MongoDB
+        // TODO: Define the documents.
+        /*
+        cfg.db.host = process.env[cfg.db.e_host] || '127.0.0.1';
+        cfg.db.port = process.env[cfg.db.e_port] || 27017;
+        */
 
-        if(typeof self.ipaddress === "undefined") {
-            // Log errors on OpenShift but continue w/ 127.0.0.1.- this
-            // allows us to run/test the app locally.
-            console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-            self.ipaddress = "127.0.0.1";
-        };
+        // Redis
+        // TODO: Incorporate session with redis.
     };
 
     /**
@@ -98,17 +104,15 @@ var Site = function() {
      * Create the routing table entries + handlers for the application.
      */
     self.createRoutes = function() {
-        self.routes = { };
+        return new Promise(function(resolve, reject) {
+            // Load routers
+            require(path.join(__dirname, 'routers')).forEach(function(init) {
+                var router = init(self.cfg);
+                self.app.use(router.prefix, router.router);
+            });
 
-        self.routes['/asciimo'] = function(req, res) {
-            var link = "http://i.imgur.com/kmbjB.png";
-            res.send("<html><body><img src=>'" + link + "'></body></html>");
-        };
-
-        self.routes['/'] = function(req, res) {
-            res.setHeader('Content-Type', 'text/html');
-            res.send(self.cache_get('index.html'));
-        };
+            return resolve();
+        });
     };
 
     /**
@@ -116,9 +120,10 @@ var Site = function() {
      * the handlers.
      */
     self.initializeServer = function() {
-        self.createRoutes();
         self.app = express();
+        self.app.set('views', path.join(__dirname, 'views'));
         self.app.set('view engine', 'jade');
+        self.createRoutes();
 
         // Add handlers for the site (from the routes).
         for (var r in self.routes) {
@@ -131,7 +136,7 @@ var Site = function() {
      */
     self.initialize = function() {
         self.setupVariables();
-        self.populateCache();
+        //self.populateCache();
         self.setupTerminationHandlers();
 
         // Create the express server and routes.
@@ -143,9 +148,12 @@ var Site = function() {
      */
     self.start = function() {
         // Start the app on the specific interface (and port).
-        self.app.listen(self.port, self.ipadress, function() {
-            console.log('%s: [STATUS] website running! %s:%d ...',
-                        Date(Date.now() ), self.ipadress, self.port);
+        //  self.app.listen(self.port, self.ipadress, function() {
+        //    console.log('%s: [STATUS] website running! %s:%d ...',
+        //                Date(Date.now() ), self.ipadress, self.port);
+        self.app.listen(cfg.port, cfg.ip, function() {
+            console.log('%s: [STATUS] Gibranv website running! %s:%d',
+                        Date(Date.now() ), cfg.ip, cfg.port);
         });
     };
     

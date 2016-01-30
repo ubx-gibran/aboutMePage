@@ -1,0 +1,22 @@
+block metaVars
+
+doctype html
+html(lang="en")
+    block head
+        meta(charset="utf-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1")
+        link(rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="gibranv")
+        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" media="screen")
+        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" media="screen")
+        link(rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600")
+
+        - var title = title || ""
+        title #{title} | gibranv
+    body(class=bodyClass)
+        include includes/navbar.jade
+        //block banner
+        //include includes/flash.jade
+        block content
+
+        footer#footer
+            include includes/footer.jade

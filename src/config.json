@@ -1,0 +1,37 @@
+{
+    "development": {
+        "certificate": false,
+        "dashboard": {
+            "callbackURL": "http://localhost:3000/oauth/callback",
+            "clientID": "dashboard",
+            "clientSecret": "",
+            "grantType": "password",
+            "scope": "account:*",
+            "tokenURL": "http://auth.gibranv.com/oauth/token"
+        },
+        "gibAuth": {
+            "base_url": "http://auth.gibranv.com",
+            "endpoints": {
+                "token": "/oauth/token",
+                "authorization": "/oauth/authorize",
+                "account": "/account",
+                "clients": "/clients",
+                "licenses": "/licenses",
+                "licenseCache": "/licenseCache",
+                "createActivationKey": "/activation/create",
+                "redeemActivationKey": "/activation/redeem",
+                "lookupActivationKey": "/activation/redeem"
+            }
+        },
+        "db": {
+            "e_host": "MONGODB_HOST",
+            "e_port": "MONGODB_PORT",
+            "name": "gibranv",
+            "options": {}
+        },
+        "debug": true,
+        "sandbox": true,
+        "e_ip": "SITE_IP",
+        "e_port": "SITE_PORT"
+    }
+}
